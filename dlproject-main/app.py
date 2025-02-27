@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
+from flask_cors import CORS  # Import CORS
 import numpy as np
 import cv2
 from PIL import Image
 import io
+import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 model = load_model("mask_model.h5")  # Load your model
 
@@ -33,6 +36,5 @@ def predict():
     return jsonify({"prediction": predicted_class})
 
 if __name__ == "__main__":
-        # app.run(debug=True, host="0.0.0.0", port=10000)
-     port = int(os.environ.get("PORT", 5000))  # Railway provides a PORT environment variable
-     app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5000))  # Railway provides a PORT environment variable
+    app.run(host="0.0.0.0", port=port)
